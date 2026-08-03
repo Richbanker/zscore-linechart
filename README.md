@@ -1,46 +1,61 @@
-# Getting Started with Create React App
+# Z-Score Line Chart
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Адаптивный React-график, который рассчитывает Z-score для двух временных рядов и визуально выделяет значения, отклоняющиеся от среднего более чем на одно стандартное отклонение.
 
-## Available Scripts
+## Возможности
 
-In the project directory, you can run:
+- расчёт среднего значения и стандартного отклонения;
+- нормализация рядов `uv` и `pv` через Z-score;
+- выделение аномальных точек красным цветом;
+- разбиение линий на сегменты с отдельным цветом;
+- tooltip, legend, координатная сетка и адаптивная ширина;
+- типизированный custom dot renderer для Recharts.
 
-### `npm start`
+## Как определяется отклонение
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Для каждого значения используется формула:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```text
+z = (value - mean) / standardDeviation
+```
 
-### `npm test`
+Точка считается отклонением, если `|z| > 1`. Красный сегмент линии строится, когда обе соседние точки превышают этот порог.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Стек
 
-### `npm run build`
+- React 19;
+- TypeScript;
+- Recharts;
+- Create React App;
+- Testing Library и Jest.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Локальный запуск
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Приложение откроется на `http://localhost:3000`.
 
-### `npm run eject`
+## Production-сборка
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+npm run build
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Тестирование
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+npm test
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Текущий `App.test.tsx` остался от стартового шаблона и не проверяет фактическое поведение графика. Перед использованием теста в CI его нужно заменить сценариями расчёта Z-score и отображения аномальных точек.
 
-## Learn More
+## Основные файлы
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `src/ZScoreChart.tsx` — расчёты, сегментация и визуализация;
+- `src/App.tsx` — контейнер страницы;
+- `src/App.test.tsx` — стартовый тест, требующий актуализации.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Проект подходит как компактный пример обработки статистических данных и кастомизации визуализации в Recharts.
