@@ -1,5 +1,8 @@
 # Getting Started with Create React App
 
+
+[![Просмотры README](https://vbr.nathanchung.dev/badge?page_id=Richbanker.zscore-linechart&text=README_Views)](https://github.com/Richbanker/zscore-linechart)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
