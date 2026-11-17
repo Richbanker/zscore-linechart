@@ -11,8 +11,8 @@ import {
   DotProps,
 } from 'recharts';
 
-interface DotPropsWithIndex extends DotProps {
-  index?: number;
+interface DotPropsWithPayload extends DotProps {
+  payload?: Record<string, unknown>;
 }
 
 const rawData = [
@@ -89,13 +89,11 @@ const data = getZScoreData(getZScoreData(rawData, 'uv'), 'pv');
 const renderCustomDot = (key: string) => {
   return (props: DotProps): React.ReactElement<SVGElement> => {
     const { cx, cy } = props;
-    const index = (props as DotPropsWithIndex).index ?? 0;
+    const point = (props as DotPropsWithPayload).payload;
+    const pointColor = point?.[`${key}_color`];
+    const color = typeof pointColor === 'string' ? pointColor : '#000';
 
-    const point = data[index] as any;
-    const color = point[`${key}_color`] || '#000';
-    const dotKey = point.__pointKey || `${key}-dot-${index}`;
-
-    return <circle key={dotKey} cx={cx} cy={cy} r={4} stroke={color} fill={color} />;
+    return <circle cx={cx} cy={cy} r={4} stroke={color} fill={color} />;
   };
 };
 
